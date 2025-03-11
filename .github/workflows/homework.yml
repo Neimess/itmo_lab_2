@@ -48,6 +48,6 @@ jobs:
         uses: ./.github/actions/common-steps
       - name: Tex
         run: |
-            sudo apt update && sudo apt install -y texlive-full
+            sudo apt update && sudo apt install -y -qq texlive-base
       - name: Run tests
         run: uv run pytest tests -s -vv --color=yes
