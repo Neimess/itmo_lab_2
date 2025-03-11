@@ -64,5 +64,4 @@ local.json
 
 #TEX
 *.aux
-*.tex
 *.log
