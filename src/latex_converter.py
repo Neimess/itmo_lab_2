@@ -1,5 +1,6 @@
 import os
-from typing import List, Any
+from typing import Any, List
+
 
 def mtx(matrix: List[List[object]], **kwargs: Any) -> str:
     """
