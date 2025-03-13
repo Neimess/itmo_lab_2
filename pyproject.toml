@@ -8,12 +8,12 @@ dependencies = []
 
 [tool.uv]
 dev-dependencies = [
-    "pytest-randomly>=3.16.0",
-    "pytest-cov>=4.1.0",   
+    "pytest-cov>=4.1.0",
     "pytest>=8.3.3",
     "pytest-forked>=1.6.0",
     "ruff>=0.7.4",
-    "mypy"
+    "mypy",
+    "latex-generator-neimess-itmo>=0.1.2",
 ]
 
 [tool.pytest.ini_options]

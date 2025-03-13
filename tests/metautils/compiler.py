@@ -11,13 +11,17 @@ class Generator:
         cls.static_var += 1
         return tmp
 
+    @classmethod
+    def clear(cls) -> None:
+        cls.static_var = 1
 
-def compile_latex(latex_code: str, temp_dir):
+
+def compile_latex(latex_code: str, temp_dir: str, graphicx: bool = False):
     tex_file = os.path.join(temp_dir, f"test_mtx_{Generator.generate()}.tex")
     pdf_file = tex_file.replace(".tex", ".pdf")
 
     with open(tex_file, "w", encoding="utf-8") as f:
-        f.write("\\documentclass{article}\n\\begin{document}\n" + latex_code + "\n\\end{document}")
+        f.write(latex_code)
 
     result = subprocess.run(
         ["pdflatex", "-interaction=nonstopmode", "-output-directory", temp_dir, tex_file],

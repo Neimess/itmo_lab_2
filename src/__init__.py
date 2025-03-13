@@ -1,1 +1,1 @@
-from .task_1 import mtx
+from .latex_converter import mtx, image_latex

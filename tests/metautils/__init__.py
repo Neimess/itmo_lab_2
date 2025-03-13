@@ -1,1 +1,1 @@
-from .compiler import compile_latex
+from .compiler import compile_latex, Generator

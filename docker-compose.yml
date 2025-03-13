@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  latex_builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./artifacts:/app/artifacts
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+    stdin_open: true  # Для интерактивного режима
+    tty: true

@@ -3,15 +3,21 @@ import os
 
 import pytest
 
-from src import mtx
+# from src import mtx
+from latex_generator_neimess_itmo.latex_utils import mtx
 
-from .metautils import compile_latex
+from .metautils import Generator, compile_latex
 
 RESOURCE_FOLDER_PATH = os.path.join("artifacts", "task_1")
 
 
+@pytest.fixture(scope="module", autouse=True)
+def clear_generator():
+    Generator.clear()
+
+
 @pytest.fixture(scope="function", autouse=True)
-def clean_latex_dir(tmp_path_factory):
+def clean_latex_dir():
     yield
     if os.path.exists(RESOURCE_FOLDER_PATH):
         for ext in ["log", "aux", "pdf"]:
@@ -20,7 +26,7 @@ def clean_latex_dir(tmp_path_factory):
 
 
 @pytest.fixture(scope="function")
-def temp_dir():
+def output_dir():
     return RESOURCE_FOLDER_PATH
 
 
@@ -34,12 +40,12 @@ def temp_dir():
         [list(range(1, 20)) for _ in range(20)],
     ],
 )
-def test_mtx_various_cases(input_matrix, temp_dir):
+def test_mtx_various_cases(input_matrix, output_dir):
     latex_code = mtx(input_matrix)
     assert isinstance(latex_code, str)
     assert r"\begin{tabular}" in latex_code
 
-    pdf_file, stdout_output, stderr_output, result = compile_latex(latex_code, str(temp_dir))
+    pdf_file, _, stderr_output, result = compile_latex(latex_code, str(output_dir))
 
     assert pdf_file is not None, f"Compilation failed: {stderr_output}"
     assert os.path.exists(pdf_file)
