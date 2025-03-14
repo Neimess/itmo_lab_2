@@ -67,6 +67,6 @@ jobs:
       - name: Install TeX
         run: |
           sudo apt update
-          sudo apt install -y -qq texlive-latex-base texlive-latex-extra texlive-xetex
+          sudo apt install -y -qq texlive-latex-base
       - name: Run tests
         run: uv run pytest tests -s -vv --color=yes

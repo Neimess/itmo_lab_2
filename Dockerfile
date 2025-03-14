@@ -3,7 +3,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 
 RUN apt-get update && apt-get install -y \
-    texlive-xetex texlive-latex-base \
+    texlive-latex-base \
     && rm -rf /var/lib/apt/lists/
 
 ARG UID=1000
