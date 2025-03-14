@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+from typing import Optional, Tuple
 
 class Generator:
     static_var = 1
@@ -16,7 +16,7 @@ class Generator:
         cls.static_var = 1
 
 
-def compile_latex(latex_code: str, temp_dir: str, graphicx: bool = False):
+def compile_latex(latex_code: str, temp_dir: str) -> Tuple[Optional[str], str, str, subprocess.CompletedProcess]:
     tex_file = os.path.join(temp_dir, f"test_mtx_{Generator.generate()}.tex")
     pdf_file = tex_file.replace(".tex", ".pdf")
 

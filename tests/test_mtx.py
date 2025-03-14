@@ -6,7 +6,7 @@ import pytest
 # from src import mtx
 from latex_generator_neimess_itmo.latex_utils import mtx
 
-from .metautils import Generator, compile_latex
+from metautils import Generator, compile_latex
 
 RESOURCE_FOLDER_PATH = os.path.join("artifacts", "task_1")
 
@@ -49,7 +49,62 @@ def test_mtx_various_cases(input_matrix, output_dir):
 
     assert pdf_file is not None, f"Compilation failed: {stderr_output}"
     assert os.path.exists(pdf_file)
-    assert result.returncode == 0
+    assert result.returncode == 0, f"Something went wrong: {stderr_output}"
+
+
+@pytest.mark.parametrize(
+    "input_matrix, kwargs",
+    [
+        ([[r"$\alpha$", r"$\beta$", r"$\gamma$"], [r"$\delta$", r"$\epsilon$", r"$\zeta$"]], {}),
+        # Без аргументов
+        (
+            [[r"$\eta$", r"$\theta$", r"$\iota$"], [r"$\kappa$", r"$\lambda$", r"$\mu$"]],
+            {"hlines": True},
+        ),
+        # Горизонтальные линии
+        (
+            [[r"$\nu$", r"$\xi$", r"$\O$"], [r"$\pi$", r"$\rho$", r"$\sigma$"]],
+            {"vlines": True},
+        ),
+        # Вертикальные линии
+        (
+            [[r"$\tau$", r"$\upsilon$", r"$\varphi$"], [r"$\chi$", r"$\psi$", r"$\omega$"]],
+            {"col_align": "lcr"},
+        ),
+        # Разное выравнивание столбцов
+        (
+            [[r"$\alpha$", r"$\beta$"], [r"$\gamma$", r"$\delta$"]],
+            {"table_env": True, "caption": "Greek Letters", "label": "tab:greek"},
+        ),
+        # Табличная среда с подписью
+        ([[r"$\epsilon$", r"$\zeta$"], [r"$\eta$", r"$\theta$"]], {"pos": "H"}),
+        # Позиционирование
+        (
+            [[r"$\Gamma$", r"$\Delta$", r"$\Theta$"], [r"$\Lambda$", r"$\Xi$", r"$\Pi$"]],
+            {"hlines": True, "vlines": True},
+        ),
+        # Горизонтальные + вертикальные линии
+        (
+            [[r"$\Sigma$", r"$\Upsilon$", r"$\Phi$"], [r"$\Psi$", r"$\Omega$", r"$\alpha$"]],
+            {"col_align": "rrl"},
+        ),
+        # Разное выравнивание
+        (
+            [[r"$\beta$", r"$\gamma$", r"$\delta$"], [r"$\epsilon$", r"$\zeta$", r"$\eta$"]],
+            {"table_env": True, "pos": "t", "caption": "Test Table", "label": "tab:test"},
+        ),
+        # Сложная комбинация аргументов
+    ],
+)
+def test_mtx_greek_cases(input_matrix, kwargs, output_dir):
+    latex_code = mtx(input_matrix, **kwargs)
+    assert isinstance(latex_code, str)
+    assert r"\begin{tabular}" in latex_code
+
+    pdf_file, stdout_output, stderr_output, result = compile_latex(latex_code, str(output_dir))
+    assert pdf_file is not None, f"Compilation failed: {stdout_output}"
+    assert os.path.exists(pdf_file)
+    assert result.returncode == 0, f"Something went wrong: {stdout_output}"
 
 
 def test_mtx_basic():

@@ -7,7 +7,7 @@ import pytest
 # Заменен на Pypi
 from latex_generator_neimess_itmo.latex_utils import image_latex
 
-from .metautils import Generator, compile_latex
+from metautils import Generator, compile_latex
 
 RESOURCE_FOLDER_PATH = os.path.join("artifacts", "task_2")
 
@@ -80,7 +80,7 @@ def output_dir():
 def test_image_kwargs(image_path, arguments, output_dir):
     latex_code = image_latex(image_path, **arguments)
     assert isinstance(latex_code, str)
-    pdf_file, _, stderr_output, result = compile_latex(latex_code, str(output_dir), graphicx=True)
+    pdf_file, _, stderr_output, result = compile_latex(latex_code, str(output_dir))
     assert pdf_file is not None, f"Compilation failed: {stderr_output}"
     assert os.path.exists(pdf_file)
     assert result.returncode == 0
