@@ -1,13 +1,13 @@
 import os
 import subprocess
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 
 from latex_generator_neimess_itmo.latex_utils import image_latex, mtx
 
 from metautils import compile_latex
 
 
-def matrix_tex_generator(matrix: list[list[object]]) -> Tuple[Optional[str], str, str, subprocess.CompletedProcess]:
+def matrix_tex_generator(matrix: list[list[Any]]) -> Tuple[Optional[str], str, str, subprocess.CompletedProcess]:
     latex_code = mtx(matrix)
     return compile_latex(latex_code, "artifacts/task_1")
 

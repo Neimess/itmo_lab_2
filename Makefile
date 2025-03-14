@@ -1,6 +1,8 @@
 PATH_TASK_1 = artifacts/task_1
 PATH_TASK_2 = artifacts/task_2
 
+all: fmt_linter check_types pytests clear
+
 fmt_linter:
 	uv run ruff check --select I --fix .
 	uv run ruff format . --no-cache
